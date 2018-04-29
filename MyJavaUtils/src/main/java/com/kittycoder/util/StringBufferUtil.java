@@ -8,6 +8,8 @@ package com.kittycoder.util;
  *
  * 这两个工具方法的封装过程可以参看test/java/StringBufferTest.java，
  * 封装思路参考了https://bbs.csdn.net/topics/350094135?list=lz
+ *
+ * StringBufferTest.java位于：MyJavaUtils/src/test/com/kittycoder/util/StringBufferUtilTest.java
  */
 public class StringBufferUtil {
 
@@ -18,7 +20,7 @@ public class StringBufferUtil {
      * @param replacement
      * @return
      */
-    public StringBuffer replaceFirst(java.lang.StringBuffer sb, String target, String replacement) {
+    public static StringBuffer replaceFirst(StringBuffer sb, String target, String replacement) {
         // 1.查找字符串中是否存在替换目标，不存在为-1
         int index = sb.indexOf(target);
         // 2.如果存在替换目标，则进行替换操作（这里的7是替换目标的字符长度）
@@ -35,7 +37,7 @@ public class StringBufferUtil {
      * @param replacement
      * @return
      */
-    public StringBuffer replaceAll(java.lang.StringBuffer sb, String target, String replacement) {
+    public static StringBuffer replaceAll(StringBuffer sb, String target, String replacement) {
         int index = -1;
         // 1.查找字符串中是否存在替换目标，不存在为-1
 
