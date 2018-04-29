@@ -18,7 +18,7 @@ public class StringBufferUtil {
      * @param replacement
      * @return
      */
-    public java.lang.StringBuffer replaceFirst(java.lang.StringBuffer sb, String target, String replacement) {
+    public StringBuffer replaceFirst(java.lang.StringBuffer sb, String target, String replacement) {
         // 1.查找字符串中是否存在替换目标，不存在为-1
         int index = sb.indexOf(target);
         // 2.如果存在替换目标，则进行替换操作（这里的7是替换目标的字符长度）
@@ -35,7 +35,7 @@ public class StringBufferUtil {
      * @param replacement
      * @return
      */
-    public java.lang.StringBuffer replaceAll(java.lang.StringBuffer sb, String target, String replacement) {
+    public StringBuffer replaceAll(java.lang.StringBuffer sb, String target, String replacement) {
         int index = -1;
         // 1.查找字符串中是否存在替换目标，不存在为-1
 
