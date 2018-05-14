@@ -1,0 +1,35 @@
+Java学习中的一些基础操作整理
+
+一、jdk安装
+jdk的所有历史版本下载地址
+http://www.oracle.com/technetwork/cn/java/archive-139210-zhs.html
+
+1)安装jdk1.7（jdk-7u79-windows-x64.exe）
+1.除了安装jdk安装路径、jre安装路径根据自己需要做些改动外，剩下的只要点next、finish即可
+2.配置java的环境变量，设置JAVA_HOME为C:\Program Files\Java\jdk1.7.0_79（jdk安装目录），
+并在path环境变量后面追加 ;%JAVA_HOME%\bin
+
+2)多版本jdk共存
+假如我在装完jdk1.7以后，还想再继续安装jdk1.8（jdk-8u161-windows-x64.exe），按照装jdk1.7的方法，
+继续装jdk1.8，装完后，在cmd中键入“java -version”，你会发现下面的报错
+Error: Registry key 'Software\JavaSoft\Java Runtime Environment'\CurrentVersion
+
+has value '1.8', but '1.7' is required.
+Error: could not find java.dll
+Error: Could not find Java SE Runtime Environment.
+
+解决方法：
+（参考链接：https://blog.csdn.net/manerfan/article/details/48492809）
+a.修改注册表 
+打开HKEY_LOCAL_MACHINE\SOFTWARE\JavaSoft 
+分别修改Java Development kit及Java Runtime Environment中的CurrentVersion值为1.7
+
+b.替换文件 
+将%JAVA7_HOME%\bin里的 java.exe javaw.exe javaws.exe 复制到 C:\Windows\System32
+及 C:\ProgramData\Oracle\Java\javapath并替换原有文件
+
+执行java -version进行验证，显示
+java version "1.7.0_79"
+Java(TM) SE Runtime Environment (build 1.7.0_79-b15)
+Java HotSpot(TM) 64-Bit Server VM (build 24.79-b02, mixed mode)
+显示正常
