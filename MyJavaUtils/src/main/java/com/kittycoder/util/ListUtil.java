@@ -1,7 +1,9 @@
 package com.kittycoder.util;
 
-import java.util.ArrayList;
+import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by shucheng on 2018/6/17 23:02.
@@ -38,19 +40,29 @@ public class ListUtil {
         return list;
     }
 
-    public static void main(String[] args) {
-        List<String> list1 = new ArrayList<String>();
-        list1.add("张三");
-        list1.add("李四");
-        list1.add("王五");
-        List<String> list2 = new ArrayList<String>();
-        list2.add("老张");
-        list2.add("老李");
-        list2.add("老王");
-        /*List<String> list = new ArrayList<String>();
-        list.addAll(list1);
-        list.addAll(list2);*/
-        List<String> list = mergeLists(new List[]{list1, list2});
-        System.out.println(list);
+    /**
+     * 将list中对象的两个属性批量转换至map中（支持字符串属性）
+     * @param list
+     * @param listProp
+     * @param <T>
+     * @return
+     */
+    public static <T> Map<String, String> listPropToStrMap(List<T> list, String[] listProp) {
+        Map<String, String> map = new HashMap<String, String>();
+        String fieldOne = listProp[0]; // 属性名称1
+        String fieldTwo = listProp[1]; // 属性名称2
+        Class clazz = list.get(0).getClass();
+        try {
+            Field field1 = clazz.getDeclaredField(fieldOne);
+            Field field2 = clazz.getDeclaredField(fieldTwo);
+            field1.setAccessible(true);
+            field2.setAccessible(true);
+            for (T t : list) {
+                map.put(field1.get(t) + "", field2.get(t) + "");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return map;
     }
 }
