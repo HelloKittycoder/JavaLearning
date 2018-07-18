@@ -3,9 +3,7 @@ package com.kittycoder.util;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by shucheng on 2018/6/16 21:28.
@@ -42,7 +40,7 @@ public class MapUtil {
      * @param <V>
      * @return
      */
-    public static <K, V> Map removeEntries(Map<K, V> map, String[] excludeKeys) {
+    public static <K, V> Map removeEntries(Map<K, V> map, K[] excludeKeys) {
         Iterator<K> iterator = map.keySet().iterator();
         while (iterator.hasNext()) {
             K k = iterator.next();
@@ -56,32 +54,68 @@ public class MapUtil {
     }
 
     /**
-     * 将map转换为object，默认转换所有key（按照key和对象属性之间的关系进行转换）
+     * 将map转换为object，转换全部属性（按照key和对象属性之间的关系进行转换）
      * @param map
      * @param t
      * @param <T>
      * @return
      */
-    public static <T> T  mapToObject(Map<String, Object> map, T t) {
-        return mapToObject(map, t,null);
+    public static <T, K, V> T  mapToObject(Map<K, V> map, T t) {
+        return mapToObject(map, t, null, 0);
     }
 
     /**
-     * 将map转换为object（按照key和对象属性之间的关系进行转换）
+     * 将map转换为object，排除指定key
      * @param map
      * @param t
-     * @param excludeKeys 需要排除的key
+     * @param keys
      * @param <T>
      * @return
      */
-    public static <T> T  mapToObject(Map<String, Object> map, T t, String[] excludeKeys) {
+    public static <T, K, V> T  mapToObjectExclude(Map<K, V> map, T t, K[] keys) {
+        return mapToObject(map, t, keys, 0);
+    }
+
+    /**
+     * 将map转换为object，转换指定key
+     * @param map
+     * @param t
+     * @param keys
+     * @param <T>
+     * @return
+     */
+    public static <T, K, V> T  mapToObjectInclude(Map<K, V> map, T t, K[] keys) {
+        return mapToObject(map, t, keys, 1);
+    }
+
+
+    /**
+     * 将map转换为object
+     * @param map
+     * @param t
+     * @param keys
+     * @param option 0 需要排除的key；1 需要包含的key
+     * @param <T>
+     * @return
+     */
+    public static <T, K, V> T  mapToObject(Map<K, V> map, T t, K[] keys, int option) {
         Class beanClass = t.getClass();
         String[] declaredFieldsName = getDeclaredFieldsName(beanClass);
-        if (ArrayUtils.isNotEmpty(excludeKeys)) {
-            MapUtil.removeEntries(map, excludeKeys);
+        Set<K> keySet = new HashSet<K>();
+        switch (option) {
+            case 0: // 需要排除的key
+                if (ArrayUtils.isNotEmpty(keys)) {
+                    MapUtil.removeEntries(map, keys);
+                }
+                keySet = map.keySet();
+                break;
+            case 1: // 需要包含的key
+                keySet = new HashSet<K>(Arrays.asList(keys));
+                break;
         }
-        for (Object k : map.keySet()) {
-            Object v = map.get(k);
+
+        for (Object k : keySet) {
+            V v = map.get(k);
             if (ArrayUtils.contains(declaredFieldsName, k.toString())) {
                 try {
                     Field field = beanClass.getDeclaredField(k.toString());
@@ -92,6 +126,7 @@ public class MapUtil {
                 }
             }
         }
+
         return t;
     }
 
