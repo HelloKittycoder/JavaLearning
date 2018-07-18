@@ -7,6 +7,10 @@ import java.util.*;
 
 /**
  * Created by shucheng on 2018/6/16 21:28.
+ * mergeMaps https://blog.csdn.net/u010999809/article/details/80721333
+ * removeEntries https://blog.csdn.net/u010999809/article/details/80721217
+ * objectToMap https://blog.csdn.net/u010999809/article/details/79939018
+ * mapToObject https://blog.csdn.net/u010999809/article/details/81072031
  **/
 public class MapUtil {
 
